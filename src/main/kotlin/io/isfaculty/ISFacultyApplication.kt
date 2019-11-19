@@ -1,4 +1,4 @@
-package io.faculty.isfaculty
+package io.isfaculty
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
