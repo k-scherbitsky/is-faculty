@@ -32,14 +32,14 @@ class SecurityConfig
                 .permitAll()
 
         http.authorizeRequests()
-                .antMatchers("/admin", "/admin/**")
+                .antMatchers("/menu", "/menu/**")
                 .hasAuthority(UserRole.ROLE_ADMIN.name)
 
         http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403")
 
         http.authorizeRequests().and().formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/admin")
+                .defaultSuccessUrl("/menu")
                 .failureUrl("/login?error")
                 .usernameParameter("username")
                 .passwordParameter("password")

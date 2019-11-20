@@ -1,5 +1,6 @@
 package io.isfaculty.model
 
+import org.springframework.data.annotation.CreatedDate
 import java.util.*
 import javax.persistence.*
 
@@ -13,6 +14,7 @@ class AccountEntity {
     var idAccount: Int? = null
 
     @Column(name = "user_role")
+    @Enumerated(EnumType.STRING)
     var userRole: UserRole? = null
 
     @Column(name = "username")
@@ -21,7 +23,8 @@ class AccountEntity {
     @Column(name = "password")
     var password: String? = null
 
-    @Column(name = "created_date")
-    val createdDate: Date? = null
+    @Column(name = "created_date", nullable = false)
+    @CreatedDate
+    val createdDate: Date = Date()
 
 }
