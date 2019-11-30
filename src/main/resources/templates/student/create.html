@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Student</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card border-primary home-card">
+            <div class="card-header">About</div>
+            <form th:action="@{/student/create}" th:object="${student}" method="post">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Имя*</label>
+                        <input th:field="*{firstName}" required type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Фамилия*</label>
+                        <input th:field="*{lastName}" type="text" required class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Отчество</label>
+                        <input th:field="*{middleName}" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input th:field="*{phoneNumber}" required type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input th:field="*{email}" required type="email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>ID зачетной книжки*</label>
+                        <input th:field="*{recordBook}" required type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Форма обучения*</label>
+                        <input th:field="*{studyForm}" required type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Группа*</label>
+                        <input th:field="*{group}" required type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>День рождения*</label>
+                        <input th:field="*{birthDate}" required type="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Дата поступления*</label>
+                        <input th:field="*{admissionDate}" required type="date" class="form-control">
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary dept-input">
+                        Сохранить
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
