@@ -15,10 +15,6 @@ class GradeEntity {
     @JoinColumn(name = "id_teacher", nullable = false)
     var teacherEntity: TeacherEntity? = null
 
-    @ManyToOne(targetEntity = ControlTypeEntity::class)
-    @JoinColumn(name = "id_control_type", nullable = false)
-    var controlTypeEntity: ControlTypeEntity? = null
-
     @ManyToOne(targetEntity = StudyPlanEntity::class)
     @JoinColumn(name = "id_study_plan", nullable = false)
     var studyPlanEntity: StudyPlanEntity? = null

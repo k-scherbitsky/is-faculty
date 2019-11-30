@@ -7,7 +7,7 @@ import javax.persistence.*
 @Table(name = "expelled", schema = "public")
 class ExpelledEntity {
 
-    @OneToOne(targetEntity = StudentEntity::class)
+    @ManyToOne(targetEntity = StudentEntity::class)
     @JoinColumn(name = "id_student", nullable = false)
     var studentEntity: StudentEntity? = null
 

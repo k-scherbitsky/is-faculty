@@ -1,6 +1,5 @@
 package io.isfaculty.model
 
-import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -12,11 +11,11 @@ class TeacherEntity {
     @Column(name = "id_teacher", unique = true, nullable = false)
     var idTeacher: Int? = null
 
-    @ManyToOne(targetEntity = TeacherTypeEntity::class)
+    @OneToOne(targetEntity = TeacherTypeEntity::class)
     @JoinColumn(name = "id_teacher_type", nullable = false)
     var teacherTypeEntity: TeacherTypeEntity? = null
 
-    @ManyToOne(targetEntity = FacultyEntity::class)
+    @OneToOne(targetEntity = FacultyEntity::class)
     @JoinColumn(name = "id_faculty", nullable = false)
     var facultyEntity: FacultyEntity? = null
 

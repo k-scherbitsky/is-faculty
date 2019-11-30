@@ -15,11 +15,11 @@ class StudentEntity {
     @Column(name = "id_record_book", nullable = false)
     var idRecordBook: String? = null
 
-    @ManyToOne(targetEntity = GroupEntity::class)
+    @OneToOne(targetEntity = GroupEntity::class)
     @JoinColumn(name = "id_group", nullable = false)
     var groupEntity: GroupEntity? = null
 
-    @ManyToOne(targetEntity = StudyFormEntity::class)
+    @OneToOne(targetEntity = StudyFormEntity::class)
     @JoinColumn(name = "id_study_form", nullable = false)
     var studyFormEntity: StudyFormEntity? = null
 

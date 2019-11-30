@@ -12,10 +12,6 @@ class GroupEntity {
     @Column(name = "id_group", unique = true, nullable = false)
     var idGroup: Int? = null
 
-    @ManyToOne(targetEntity = FacultyEntity::class)
-    @JoinColumn(name = "id_faculty", nullable = false)
-    var facultyEntity: FacultyEntity? = null
-
     @ManyToOne(targetEntity = DepartmentEntity::class)
     @JoinColumn(name = "id_department", nullable = false)
     var departmentEntity: DepartmentEntity? = null
