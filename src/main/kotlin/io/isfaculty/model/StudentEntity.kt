@@ -30,5 +30,10 @@ class StudentEntity {
     @Column(name = "admission_date", nullable = false)
     var admissionDate: Date? = null
 
+    @Column(name = "has_children", nullable = false)
+    var hasChildren: Boolean? = null
+
+    @Column(name = "course_number", nullable = false)
+    var courseNumber: Int? = null
 
 }
