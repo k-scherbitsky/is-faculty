@@ -5,6 +5,7 @@ import io.isfaculty.dao.HumanRepository
 import io.isfaculty.dao.StudentRepository
 import io.isfaculty.dao.StudyFormRepository
 import io.isfaculty.dto.Student
+import io.isfaculty.dto.StudentSearchCriteria
 import io.isfaculty.model.HumanEntity
 import io.isfaculty.model.StudentEntity
 import io.isfaculty.service.StudentService
@@ -41,6 +42,12 @@ class StudentServiceImpl @Autowired constructor(
         studentEntity.groupEntity = groupRepository.findByName(student.group.toString())
         studentEntity.admissionDate = SimpleDateFormat("yyyy-MM-dd").parse(student.admissionDate)
         studentEntity.studyFormEntity = studyFormRepository.findByName(student.studyForm.toString())
+        studentEntity.hasChildren = student.hasChildren
         studentRepository.save(studentEntity)
+    }
+
+    override fun search(searchCriteria: StudentSearchCriteria): Student {
+
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
