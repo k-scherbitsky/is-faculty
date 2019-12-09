@@ -16,7 +16,7 @@ class StudyPlanEntity {
     @JoinColumn(name = "id_discipline", nullable = false)
     var disciplineEntity: DisciplineEntity? = null
 
-    @OneToOne(targetEntity = OccupationTypeEntity::class)
+    @ManyToOne(targetEntity = OccupationTypeEntity::class)
     @JoinColumn(name = "id_occupation_type", nullable = false)
     var occupationTypeEntity: OccupationTypeEntity? = null
 

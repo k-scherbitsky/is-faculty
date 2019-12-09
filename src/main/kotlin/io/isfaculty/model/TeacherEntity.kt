@@ -15,10 +15,6 @@ class TeacherEntity {
     @JoinColumn(name = "id_teacher_type", nullable = false)
     var teacherTypeEntity: TeacherTypeEntity? = null
 
-    @OneToOne(targetEntity = FacultyEntity::class)
-    @JoinColumn(name = "id_faculty", nullable = false)
-    var facultyEntity: FacultyEntity? = null
-
     @ManyToMany
     @JoinTable(name = "teacher_department",
             joinColumns = [JoinColumn(name = "id_teacher")],

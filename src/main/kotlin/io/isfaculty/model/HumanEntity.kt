@@ -30,4 +30,7 @@ class HumanEntity {
     @Column(name = "birth_date", nullable = false)
     var birthDate: Date? = null
 
+    @Column(name = "sex", nullable = false)
+    var sex: String? = null
+
 }

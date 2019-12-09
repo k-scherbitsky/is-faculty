@@ -4,12 +4,12 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name = "relation_type", schema = "public")
+@Table(name = "relationship_type", schema = "public")
 class RelationTypeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_relation_type", unique = true, nullable = false)
+    @Column(name = "id_relationship", unique = true, nullable = false)
     var idRelationType: Int? = null
 
     @Column(name = "name", nullable = false)

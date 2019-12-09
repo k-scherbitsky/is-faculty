@@ -3,6 +3,7 @@ package io.isfaculty.model
 import java.util.*
 import javax.persistence.*
 
+
 @Entity
 @Table(name = "student", schema = "public")
 class StudentEntity {
@@ -35,5 +36,8 @@ class StudentEntity {
 
     @Column(name = "course_number", nullable = false)
     var courseNumber: Int? = null
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE], mappedBy = "students")
+    val parents: List<ParentsEntity> = mutableListOf()
 
 }
