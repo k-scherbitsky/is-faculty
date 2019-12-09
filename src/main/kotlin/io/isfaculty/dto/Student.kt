@@ -12,5 +12,6 @@ data class Student(
         var studyForm: String? = null,
         var admissionDate: String? = null,
         var group: String? = null,
-        var hasChildren: Boolean? = null
+        var hasChildren: Boolean? = null,
+        var sex: String? = null
 )

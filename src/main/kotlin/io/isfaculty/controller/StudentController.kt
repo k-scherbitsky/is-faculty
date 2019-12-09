@@ -32,15 +32,23 @@ class StudentController @Autowired constructor(private val studentService: Stude
         return "student/index"
     }
 
-    @RequestMapping("/search")
-    fun search(model: Model): String {
-        model.addAttribute("student", Student())
-        return "student/search"
+    @GetMapping("/result")
+    fun search(@ModelAttribute searchCriteria: StudentSearchCriteria, model: Model): String {
+        val studentList: List<Student> = studentService.search(searchCriteria)
+
+        if(studentList.isEmpty()) {
+            model.addAttribute("isEmpty", true)
+        } else {
+            model.addAttribute("isEmpty", false)
+            model.addAttribute("studentList", studentList)
+        }
+
+        return "student/result"
     }
 
-    @GetMapping("/search")
-    fun search(@ModelAttribute searchCriteria: StudentSearchCriteria): String {
-        val student: Student = studentService.search(searchCriteria)
+    @RequestMapping("/search")
+    fun searchStudent(model: Model): String {
+        model.addAttribute("searchCriteria", StudentSearchCriteria())
         return "student/search"
     }
 

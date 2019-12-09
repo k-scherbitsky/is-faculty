@@ -1,5 +1,6 @@
 package io.isfaculty.service.impl
 
+import io.isfaculty.converter.StudentConverter
 import io.isfaculty.dao.GroupRepository
 import io.isfaculty.dao.HumanRepository
 import io.isfaculty.dao.StudentRepository
@@ -21,6 +22,7 @@ class StudentServiceImpl @Autowired constructor(
         private val humanRepository: HumanRepository,
         private val studentRepository: StudentRepository,
         private val groupRepository: GroupRepository,
+        private val studentConverter: StudentConverter,
         private val studyFormRepository: StudyFormRepository
 ) : StudentService {
 
@@ -46,8 +48,19 @@ class StudentServiceImpl @Autowired constructor(
         studentRepository.save(studentEntity)
     }
 
-    override fun search(searchCriteria: StudentSearchCriteria): Student {
+    override fun search(searchCriteria: StudentSearchCriteria): List<Student> {
 
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val studentEntity = studentRepository.findBySearching(
+                searchCriteria.hasChildren,
+                searchCriteria.course,
+                searchCriteria.group,
+                searchCriteria.department,
+                searchCriteria.sex
+        )
+
+        val student = studentEntity.map { studentConverter.convert(it) }
+
+
+        return student
     }
 }

@@ -6,5 +6,5 @@ import io.isfaculty.dto.StudentSearchCriteria
 interface StudentService {
 
     fun createStudent(student: Student)
-    fun search(searchCriteria: StudentSearchCriteria): Student
+    fun search(searchCriteria: StudentSearchCriteria): List<Student>
 }

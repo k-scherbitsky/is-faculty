@@ -16,13 +16,47 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="card border-primary home-card">
-            <div class="card-header">About</div>
-            <form th:action="@{/student/create}" th:object="${student}" method="get">
+            <div class="card-header">Поиск</div>
+            <form th:action="@{/student/result}" th:object="${searchCriteria}" method="get">
                 <div class="card-body">
+                    <div class="row my-3">
+                        <div class="col-4">
+                            <label>Курс</label>
+                            <input th:field="*{course}" class="form-control" type="number" min="1" max="6" placeholder="Курс">
+                        </div>
+                        <div class="col-4">
+                            <label>Кафедра</label>
+                            <input th:field="*{department}" class="form-control" type="text" placeholder="Кафедра">
+                        </div>
+                        <div class="col-4">
+                            <label>Группа</label>
+                            <input th:field="*{group}" class="form-control" type="text" placeholder="Группа">
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-4">
+                            <label>Пол</label>
+                            <select th:field="*{sex}" class="form-control">
+                                <option value="">Не важно</option>
+                                <option value="m">Мужской</option>
+                                <option value="f">Женский</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <label>Дата рождения</label>
+                            <input th:field="*{birthDate}" class="form-control" type="date" placeholder="Дата рождения">
+                        </div>
+                        <div class="col-4">
+                            <div class="form-check">
+                                <input th:field="*{hasChildren}" type="checkbox" class="form-check-input">
+                                <label class="form-check-label">Есть ли дети</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary dept-input">
-                        Сохранить
+                        Поиск
                     </button>
                 </div>
             </form>
