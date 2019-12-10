@@ -14,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.text.SimpleDateFormat
-import java.util.*
+import javax.persistence.EntityManager
+import javax.persistence.PersistenceContext
+import javax.persistence.criteria.Expression
+
 
 @Service
 @Transactional
@@ -26,11 +29,13 @@ class StudentServiceImpl @Autowired constructor(
         private val studyFormRepository: StudyFormRepository
 ) : StudentService {
 
+    @PersistenceContext
+    private lateinit var entityManager: EntityManager
 
     override fun createStudent(student: Student) {
 
-        var humanEntity = HumanEntity();
-        humanEntity.firstName = student.firstName;
+        var humanEntity = HumanEntity()
+        humanEntity.firstName = student.firstName
         humanEntity.lastName = student.lastName
         humanEntity.middleName = student.middleName
         humanEntity.birthDate = SimpleDateFormat("yyyy-MM-dd").parse(student.birthDate)
@@ -50,17 +55,39 @@ class StudentServiceImpl @Autowired constructor(
 
     override fun search(searchCriteria: StudentSearchCriteria): List<Student> {
 
-        val studentEntity = studentRepository.findBySearching(
-                searchCriteria.hasChildren,
-                searchCriteria.course,
-                searchCriteria.group,
-                searchCriteria.department,
-                searchCriteria.sex
-        )
+        val builder = entityManager.criteriaBuilder
+        val criteriaQuery = builder.createQuery(StudentEntity::class.java)
+        val root = criteriaQuery.from(StudentEntity::class.java)
+        var predicate = builder.conjunction()
 
-        val student = studentEntity.map { studentConverter.convert(it) }
+        if (!searchCriteria.group.isNullOrEmpty()) {
+            val expression: Expression<String> = root.get<Any>("groupEntity").get("name")
+            predicate = builder.and(predicate, builder.like(builder.lower(expression), "%${searchCriteria.group!!.toLowerCase()}%"))
+        }
 
+        if (!searchCriteria.department.isNullOrEmpty()) {
+            val expression: Expression<String> = root.get<Any>("groupEntity").get<Any>("departmentEntity").get("name")
+            predicate = builder.and(predicate, builder.like(builder.lower(expression), "%${searchCriteria.department!!.toLowerCase()}%"))
+        }
 
-        return student
+        if (!searchCriteria.sex.isNullOrEmpty()) {
+            val expression: Expression<String> = root.get<Any>("humanEntity").get("sex")
+            predicate = builder.and(predicate, builder.like(builder.lower(expression), "%${searchCriteria.sex!!.toLowerCase()}%"))
+        }
+
+        if (searchCriteria.course in 1..6) {
+            val expression: Expression<String> = root.get("courseNumber")
+            predicate = builder.and(predicate, builder.equal(expression, searchCriteria.course))
+        }
+
+        if (searchCriteria.hasChildren != null) {
+            val expression: Expression<String> = root.get("hasChildren")
+            predicate = builder.and(predicate, builder.equal(expression, searchCriteria.hasChildren))
+        }
+
+        criteriaQuery.where(predicate)
+        val items: List<StudentEntity> = entityManager.createQuery(criteriaQuery).resultList
+
+        return items.map { studentConverter.convert(it) }
     }
 }

@@ -22,35 +22,37 @@
                     <div class="row my-3">
                         <div class="col-4">
                             <label>Курс</label>
-                            <input th:field="*{course}" class="form-control" type="number" min="1" max="6" placeholder="Курс">
+                            <input th:field="*{course}" th:default="null" class="form-control" type="number" min="1" max="6" placeholder="Курс">
                         </div>
                         <div class="col-4">
                             <label>Кафедра</label>
-                            <input th:field="*{department}" class="form-control" type="text" placeholder="Кафедра">
+                            <input th:field="*{department}" th:default="null" class="form-control" type="text" placeholder="Кафедра">
                         </div>
                         <div class="col-4">
                             <label>Группа</label>
-                            <input th:field="*{group}" class="form-control" type="text" placeholder="Группа">
+                            <input th:field="*{group}" th:default="null" class="form-control" type="text" placeholder="Группа">
                         </div>
                     </div>
                     <div class="row my-3">
                         <div class="col-4">
                             <label>Пол</label>
-                            <select th:field="*{sex}" class="form-control">
-                                <option value="">Не важно</option>
+                            <select th:field="*{sex}" th:default="null" class="form-control">
+                                <option th:value="null">Не важно</option>
                                 <option value="m">Мужской</option>
                                 <option value="f">Женский</option>
                             </select>
                         </div>
                         <div class="col-4">
                             <label>Дата рождения</label>
-                            <input th:field="*{birthDate}" class="form-control" type="date" placeholder="Дата рождения">
+                            <input th:field="*{birthDate}" th:default="null" class="form-control" type="date" placeholder="Дата рождения">
                         </div>
                         <div class="col-4">
-                            <div class="form-check">
-                                <input th:field="*{hasChildren}" type="checkbox" class="form-check-input">
-                                <label class="form-check-label">Есть ли дети</label>
-                            </div>
+                            <label>Есть ли дети</label>
+                            <select th:field="*{hasChildren}" th:default="null" class="form-control">
+                                <option th:value="null">Не важно</option>
+                                <option th:value="true">Есть</option>
+                                <option th:value="false">Нет</option>
+                            </select>
                         </div>
                     </div>
                 </div>
