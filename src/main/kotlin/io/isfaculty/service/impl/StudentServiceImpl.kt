@@ -1,12 +1,11 @@
 package io.isfaculty.service.impl
 
 import io.isfaculty.converter.StudentConverter
-import io.isfaculty.dao.GroupRepository
-import io.isfaculty.dao.HumanRepository
-import io.isfaculty.dao.StudentRepository
-import io.isfaculty.dao.StudyFormRepository
+import io.isfaculty.dao.*
 import io.isfaculty.dto.Student
 import io.isfaculty.dto.StudentSearchCriteria
+import io.isfaculty.model.FacultyEntity
+import io.isfaculty.model.GroupEntity
 import io.isfaculty.model.HumanEntity
 import io.isfaculty.model.StudentEntity
 import io.isfaculty.service.StudentService
@@ -26,6 +25,7 @@ class StudentServiceImpl @Autowired constructor(
         private val studentRepository: StudentRepository,
         private val groupRepository: GroupRepository,
         private val studentConverter: StudentConverter,
+        private val facultyRepository: FacultyRepository,
         private val studyFormRepository: StudyFormRepository
 ) : StudentService {
 
@@ -41,6 +41,7 @@ class StudentServiceImpl @Autowired constructor(
         humanEntity.birthDate = SimpleDateFormat("yyyy-MM-dd").parse(student.birthDate)
         humanEntity.email = student.email
         humanEntity.phoneNumber = student.phoneNumber
+        humanEntity.sex = "m"
         humanEntity = humanRepository.save(humanEntity)
 
         val studentEntity = StudentEntity()
@@ -50,6 +51,7 @@ class StudentServiceImpl @Autowired constructor(
         studentEntity.admissionDate = SimpleDateFormat("yyyy-MM-dd").parse(student.admissionDate)
         studentEntity.studyFormEntity = studyFormRepository.findByName(student.studyForm.toString())
         studentEntity.hasChildren = student.hasChildren
+        studentEntity.courseNumber = 4
         studentRepository.save(studentEntity)
     }
 
@@ -62,7 +64,14 @@ class StudentServiceImpl @Autowired constructor(
 
         if (!searchCriteria.group.isNullOrEmpty()) {
             val expression: Expression<String> = root.get<Any>("groupEntity").get("name")
-            predicate = builder.and(predicate, builder.like(builder.lower(expression), "%${searchCriteria.group!!.toLowerCase()}%"))
+            val groups = searchCriteria.group!!.split(",")
+            predicate = builder.and(predicate, expression.`in`(groups))
+        }
+
+        if (!searchCriteria.faculty.isNullOrEmpty()) {
+            val expression: Expression<String> = root.get<Any>("groupEntity").get<Any>("departmentEntity").get<Any>("facultyEntity").get("name")
+            val faculties = searchCriteria.faculty!!.split(",")
+            predicate = builder.and(predicate, expression.`in`(faculties))
         }
 
         if (!searchCriteria.department.isNullOrEmpty()) {
@@ -75,9 +84,10 @@ class StudentServiceImpl @Autowired constructor(
             predicate = builder.and(predicate, builder.like(builder.lower(expression), "%${searchCriteria.sex!!.toLowerCase()}%"))
         }
 
-        if (searchCriteria.course in 1..6) {
+        if (!searchCriteria.course.isNullOrEmpty()) {
             val expression: Expression<String> = root.get("courseNumber")
-            predicate = builder.and(predicate, builder.equal(expression, searchCriteria.course))
+            val courses = searchCriteria.course!!.replace(" ", "").split(",").map { it.toIntOrNull() }
+            predicate = builder.and(predicate, expression.`in`(courses))
         }
 
         if (searchCriteria.hasChildren != null) {
@@ -89,5 +99,16 @@ class StudentServiceImpl @Autowired constructor(
         val items: List<StudentEntity> = entityManager.createQuery(criteriaQuery).resultList
 
         return items.map { studentConverter.convert(it) }
+    }
+
+    override fun setSearchCriteria(): StudentSearchCriteria {
+        val criteria = StudentSearchCriteria();
+
+        val faculties: List<FacultyEntity> = facultyRepository.findAll()
+        val groupEntity: List<GroupEntity> = groupRepository.findAll();
+        criteria.facultyList = faculties.map { it.name.toString() }
+        criteria.groupList = groupEntity.map { it.name.toString() }
+
+        return criteria
     }
 }

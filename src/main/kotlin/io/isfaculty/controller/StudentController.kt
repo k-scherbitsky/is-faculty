@@ -48,7 +48,7 @@ class StudentController @Autowired constructor(private val studentService: Stude
 
     @RequestMapping("/search")
     fun searchStudent(model: Model): String {
-        model.addAttribute("searchCriteria", StudentSearchCriteria())
+        model.addAttribute("searchCriteria", studentService.setSearchCriteria())
         return "student/search"
     }
 

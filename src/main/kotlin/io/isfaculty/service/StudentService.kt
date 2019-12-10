@@ -7,4 +7,5 @@ interface StudentService {
 
     fun createStudent(student: Student)
     fun search(searchCriteria: StudentSearchCriteria): List<Student>
+    fun setSearchCriteria(): StudentSearchCriteria
 }
