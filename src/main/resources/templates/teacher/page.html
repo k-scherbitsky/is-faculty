@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student page</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card border-primary home-card">
+            <div class="card-header">Преподаватель</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <span class="font-weight-bold">Фамилия: </span>
+                        <span th:text="${teacher.lastName}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Имя: </span>
+                        <span th:text="${teacher.firstName}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Отчество:</span>
+                        <span th:text="${teacher.middleName}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Дата рождения:</span>
+                        <span th:text="${teacher.birthDate}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Пол: </span>
+                        <span th:text="${teacher.sex}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Email: </span>
+                        <span th:text="${teacher.email}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Телефон: </span>
+                        <span th:text="${teacher.phoneNumber}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Ученая степень: </span>
+                        <span th:text="${teacher.rang}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Кафедра: </span>
+                        <div th:text="${dept}" th:each="dept : ${teacher.departments}"/>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 font-weight-bold">Адреса проживания:</div>
+                    <div class="col-12">
+                        <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Адрес</th>
+                            <th scope="col">Прописка</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="address : ${teacher.addresses}">
+                            <th scope="row" th:text="${address.addressId}"/>
+                            <td th:text="${address.country + ', г. ' + address.city + ', ул. ' + address.street + ', д. ' + address.house + ', кв. ' + address.flat}"/>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" th:checked="${address.legalAddress}"
+                                           disabled>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="/teacher" class="btn btn-primary" role="button">Назад</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

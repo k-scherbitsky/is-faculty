@@ -1,13 +1,15 @@
 package io.isfaculty.service.impl
 
-import io.isfaculty.converter.StudentConverter
+import io.isfaculty.converter.TeacherConverter
 import io.isfaculty.dao.*
+import io.isfaculty.dto.FullTeacher
 import io.isfaculty.dto.Teacher
 import io.isfaculty.model.AddressEntity
 import io.isfaculty.model.HumanEntity
 import io.isfaculty.model.TeacherEntity
 import io.isfaculty.service.TeacherService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.text.SimpleDateFormat
@@ -18,7 +20,7 @@ class TeacherServiceImpl  @Autowired constructor(
         private val humanRepository: HumanRepository,
         private val studentRepository: StudentRepository,
         private val groupRepository: GroupRepository,
-        private val studentConverter: StudentConverter,
+        private val teacherConverter: TeacherConverter,
         private val facultyRepository: FacultyRepository,
         private val studyFormRepository: StudyFormRepository,
         private val teacherTypeRepository: TeacherTypeRepository,
@@ -62,5 +64,12 @@ class TeacherServiceImpl  @Autowired constructor(
 
 
         teacherRepository.save(entity)
+    }
+
+    override fun getFullTeacher(id: Int): FullTeacher? {
+
+        val entity = teacherRepository.findByIdOrNull(id)
+
+        return teacherConverter.convertFull(entity)
     }
 }
