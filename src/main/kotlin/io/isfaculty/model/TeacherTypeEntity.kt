@@ -9,7 +9,7 @@ class TeacherTypeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "is_teacher_type", unique = true, nullable = false)
+    @Column(name = "id_teacher_type", unique = true, nullable = false)
     var idTeacherType: Int? = null
 
     @Column(name = "name", nullable = false)

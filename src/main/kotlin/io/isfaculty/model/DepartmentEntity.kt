@@ -1,6 +1,5 @@
 package io.isfaculty.model
 
-import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -20,5 +19,5 @@ class DepartmentEntity {
     var name: String? = null
 
     @ManyToMany(mappedBy = "teachersDepartment")
-    var teachers: Set<TeacherEntity>? = null
+    var teachers: List<TeacherEntity>? = null
 }

@@ -28,6 +28,11 @@ class MainController @Autowired constructor(private val accountService: AccountS
         return "about"
     }
 
+    @RequestMapping("/menu")
+    fun menu(mode: Model): String {
+        return "menu"
+    }
+
     @GetMapping("/signup")
     @ResponseStatus(code = HttpStatus.CREATED)
     fun signUpPage(): AccountEntity {

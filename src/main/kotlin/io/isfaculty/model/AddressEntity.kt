@@ -11,8 +11,8 @@ class AddressEntity {
     @Column(name = "address_id", unique = true, nullable = false)
     var addressId: Long? = null
 
-    @ManyToOne(targetEntity = HumanEntity::class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_human", referencedColumnName = "id_human", nullable = false)
+    @ManyToOne(targetEntity = HumanEntity::class, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "id_human", referencedColumnName = "id_human")
     var humanEntity: HumanEntity? = null
 
     @Column(name = "country", nullable = false)

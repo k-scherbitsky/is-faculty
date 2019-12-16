@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Student</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card border-primary home-card">
+            <div class="card-header">Добавить преподавателя</div>
+            <form th:action="@{/teacher/create}" th:object="${teacher}" method="post">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label>Имя*</label>
+                                <input th:field="*{firstName}" required type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label>Отчество</label>
+                                <input th:field="*{middleName}" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label>Фамилия*</label>
+                                <input th:field="*{lastName}" type="text" required class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label>Телефон</label>
+                                <input th:field="*{phoneNumber}" required type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input th:field="*{email}" required type="email" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label>День рождения*</label>
+                                <input th:field="*{birthDate}" required type="date" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label>Пол*</label>
+                                <select class="form-control" th:field="*{sex}">
+                                    <option value="m">Мужской</option>
+                                    <option value="f">Женский</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label>Ученая степень*</label>
+                            <select class="form-control" th:field="*{teacherTypeId}" >
+                                <option th:each="type : ${teacherTypes}" th:value="${type.idTeacherType}" th:text="${type.name}"/>
+                            </select>
+                        </div>
+                        <div class="col-8">
+                            <label>Кафедра(-ы)*</label>
+                            <select multiple class="form-control" th:field="*{departments}" >
+                                <option th:each="dept : ${depts}" th:value="${dept.idDepartment}" th:text="${dept.name}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <label>Арес прописки*</label>
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Страна*</label>
+                                <input th:field="*{address.country}" required type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Город*</label>
+                                <input th:field="*{address.city}" required type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Улица*</label>
+                                <input th:field="*{address.street}" required type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Дом*</label>
+                                <input th:field="*{address.house}" required type="number" min="1" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Корпус</label>
+                                <input th:field="*{address.building}" type="number" min="1" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Квартира*</label>
+                                <input th:field="*{address.flat}" required type="number" min="1" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary dept-input">
+                        Сохранить
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

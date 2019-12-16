@@ -34,6 +34,6 @@ class HumanEntity {
     @Column(name = "sex", nullable = false)
     var sex: String? = null
 
-    @OneToMany(mappedBy = "humanEntity", fetch = FetchType.LAZY)
-    var addressList: List<AddressEntity> = mutableListOf()
+    @OneToMany(mappedBy = "humanEntity", cascade = [CascadeType.ALL])
+    var addressList: List<AddressEntity>? = null
 }
