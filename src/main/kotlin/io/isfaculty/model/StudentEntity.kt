@@ -14,7 +14,7 @@ class StudentEntity {
     var idStudent: Int? = null
 
     @Column(name = "id_record_book", nullable = false)
-    var idRecordBook: String? = null
+    var recordBook: String? = null
 
     @OneToOne(targetEntity = GroupEntity::class)
     @JoinColumn(name = "id_group", nullable = false)

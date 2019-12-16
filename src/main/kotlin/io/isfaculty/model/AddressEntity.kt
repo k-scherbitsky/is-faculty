@@ -1,15 +1,19 @@
 package io.isfaculty.model
 
-import java.util.*
 import javax.persistence.*
 
-@Embeddable
-@Table(name = "student_address", schema = "public")
-class StudentAddressEntity {
+@Entity
+@Table(name = "address", schema = "public")
+class AddressEntity {
 
-    @ManyToOne(targetEntity = StudentEntity::class)
-    @JoinColumn(name = "id_student", nullable = false)
-    var studentEntity: StudentEntity? = null
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "address_id", unique = true, nullable = false)
+    var addressId: Long? = null
+
+    @ManyToOne(targetEntity = HumanEntity::class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_human", referencedColumnName = "id_human", nullable = false)
+    var humanEntity: HumanEntity? = null
 
     @Column(name = "country", nullable = false)
     var country: String? = null
@@ -30,6 +34,6 @@ class StudentAddressEntity {
     var city: String? = null
 
     @Column(name = "legal_address", nullable = false)
-    var isLegalAddress: Boolean? = null
+    var legalAddress: Boolean? = null
 
 }

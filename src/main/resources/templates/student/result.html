@@ -38,7 +38,9 @@
                     </thead>
                     <tbody>
                     <tr th:each="student : ${studentList}">
-                        <th scope="row" th:text="${student.studentId}"/>
+                        <th scope="row">
+                            <a th:href="'/student/' + ${student.studentId}" th:text="${student.studentId}"/>
+                        </th>
                         <td th:text="${student.recordBook}"/>
                         <td th:text="${student.lastName}"/>
                         <td th:text="${student.firstName}"/>

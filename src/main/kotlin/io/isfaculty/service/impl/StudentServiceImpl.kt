@@ -2,14 +2,13 @@ package io.isfaculty.service.impl
 
 import io.isfaculty.converter.StudentConverter
 import io.isfaculty.dao.*
+import io.isfaculty.dto.FullStudent
 import io.isfaculty.dto.Student
 import io.isfaculty.dto.StudentSearchCriteria
-import io.isfaculty.model.FacultyEntity
-import io.isfaculty.model.GroupEntity
-import io.isfaculty.model.HumanEntity
-import io.isfaculty.model.StudentEntity
+import io.isfaculty.model.*
 import io.isfaculty.service.StudentService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.text.SimpleDateFormat
@@ -46,7 +45,7 @@ class StudentServiceImpl @Autowired constructor(
 
         val studentEntity = StudentEntity()
         studentEntity.humanEntity = humanEntity
-        studentEntity.idRecordBook = student.recordBook
+        studentEntity.recordBook = student.recordBook
         studentEntity.groupEntity = groupRepository.findByName(student.group.toString())
         studentEntity.admissionDate = SimpleDateFormat("yyyy-MM-dd").parse(student.admissionDate)
         studentEntity.studyFormEntity = studyFormRepository.findByName(student.studyForm.toString())
@@ -110,5 +109,12 @@ class StudentServiceImpl @Autowired constructor(
         criteria.groupList = groupEntity.map { it.name.toString() }
 
         return criteria
+    }
+
+    override fun getFullStudent(id: Int): FullStudent? {
+
+        val student: StudentEntity? = studentRepository.findByIdOrNull(id)
+
+        return studentConverter.convertFull(student)
     }
 }

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student page</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card border-primary home-card">
+            <div class="card-header">Студент</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <span class="font-weight-bold">Фамилия: </span>
+                        <span th:text="${student.lastName}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Имя: </span>
+                        <span th:text="${student.firstName}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Отчество:</span>
+                        <span th:text="${student.middleName}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Дата рождения:</span>
+                        <span th:text="${student.birthDate}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Пол: </span>
+                        <span th:text="${student.sex}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Зачетка: </span>
+                        <span th:text="${student.recordBook}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Факультет: </span>
+                        <span th:text="${student.faculty}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Кафедра: </span>
+                        <span th:text="${student.department}"></span>
+                    </div>
+                    <div class="col-12">
+                        <span class="font-weight-bold">Группа: </span>
+                        <span th:text="${student.group}"></span>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 font-weight-bold">Адреса проживания:</div>
+                    <div class="col-12">
+                        <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Адрес</th>
+                            <th scope="col">Прописка</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="address : ${student.addresses}">
+                            <th scope="row" th:text="${address.addressId}"/>
+                            <td th:text="${address.country + ', г. ' + address.city + ', ул. ' + address.street + ', д. ' + address.house + ', кв. ' + address.flat}"/>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" th:checked="${address.legalAddress}"
+                                           disabled>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 font-weight-bold">Родители:</div>
+                    <div class="col-12">
+                        <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Родитель</th>
+                            <th scope="col">Фамилия</th>
+                            <th scope="col">Имя</th>
+                            <th scope="col">Отчество</th>
+                            <th scope="col">День рождения</th>
+                            <th scope="col">Телефон</th>
+                            <th scope="col">E-mail</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="parent : ${student.parents}">
+                            <th scope="row" th:text="${parent.idParent}"/>
+                            <td th:text="${parent.relationTypeEntity.name}"/>
+                            <td th:text="${parent.humanEntity.lastName}"/>
+                            <td th:text="${parent.humanEntity.firstName}"/>
+                            <td th:text="${parent.humanEntity.middleName}"/>
+                            <td th:text="${parent.humanEntity.birthDate}"/>
+                            <td th:text="${parent.humanEntity.phoneNumber}"/>
+                            <td th:text="${parent.humanEntity.email}"/>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="/student" class="btn btn-primary" role="button">Назад</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

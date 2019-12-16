@@ -2,6 +2,7 @@ package io.isfaculty.model
 
 import java.util.*
 import javax.persistence.*
+import kotlin.collections.HashSet
 
 @Entity
 @Table(name = "human", schema = "public")
@@ -33,4 +34,6 @@ class HumanEntity {
     @Column(name = "sex", nullable = false)
     var sex: String? = null
 
+    @OneToMany(mappedBy = "humanEntity", fetch = FetchType.LAZY)
+    var addressList: List<AddressEntity> = mutableListOf()
 }

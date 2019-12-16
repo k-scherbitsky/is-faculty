@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.QueryHints
 import org.springframework.data.querydsl.binding.QuerydslPredicate
 import org.springframework.data.repository.query.Param
 
-interface StudentRepository : JpaRepository<StudentEntity, Long> {
+interface StudentRepository : JpaRepository<StudentEntity, Int> {
 
 
 }

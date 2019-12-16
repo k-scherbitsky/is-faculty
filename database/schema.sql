@@ -494,14 +494,14 @@ CREATE TABLE public.student_address (
 -- Name: COLUMN student_address.building; Type: COMMENT; Schema: public; Owner: -
 --
 
-COMMENT ON COLUMN public.student_address.building IS 'Корпус';
+COMMENT ON COLUMN public.address.building IS 'Корпус';
 
 
 --
 -- Name: COLUMN student_address.legal_address; Type: COMMENT; Schema: public; Owner: -
 --
 
-COMMENT ON COLUMN public.student_address.legal_address IS 'Официальное место прописки';
+COMMENT ON COLUMN public.address.legal_address IS 'Официальное место прописки';
 
 
 --
@@ -992,7 +992,7 @@ CREATE INDEX stipend_id_student_index ON public.stipend USING btree (id_student)
 -- Name: student_address_id_student_index; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX student_address_id_student_index ON public.student_address USING btree (id_student);
+CREATE INDEX student_address_id_student_index ON public.address USING btree (id_human);
 
 
 --
@@ -1186,8 +1186,8 @@ ALTER TABLE ONLY public.stipend
 -- Name: student_address student_address_student_id_student_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.student_address
-    ADD CONSTRAINT student_address_student_id_student_fk FOREIGN KEY (id_student) REFERENCES public.student(id_student) ON DELETE CASCADE;
+ALTER TABLE ONLY public.address
+    ADD CONSTRAINT student_address_student_id_student_fk FOREIGN KEY (id_human) REFERENCES public.student(id_student) ON DELETE CASCADE;
 
 
 --
