@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div>
+    <div class="row justify-content-center">
+        <div class="card border-primary table-card">
+            <div class="card-header">Результат</div>
+            <div class="card-body" th:switch="${isEmpty}">
+                <table th:case="false" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Степень</th>
+                        <th scope="col">Фамилия</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Отчество</th>
+                        <th scope="col">Пол</th>
+                        <th scope="col">День рождения</th>
+                        <th scope="col">Телефон</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Кафедра</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="teacher : ${teacherList}">
+                        <th scope="row">
+                            <a th:href="'/teacher/' + ${teacher.teacherId}" th:text="${teacher.teacherId}"/>
+                        </th>
+                        <td th:text="${teacher.rang}"/>
+                        <td th:text="${teacher.lastName}"/>
+                        <td th:text="${teacher.firstName}"/>
+                        <td th:text="${teacher.middleName}"/>
+                        <td th:text="${teacher.sex}"/>
+                        <td th:text="${teacher.birthDate}"/>
+                        <td th:text="${teacher.phoneNumber}"/>
+                        <td th:text="${teacher.email}"/>
+                        <td>
+                            <div th:each="depts : ${teacher.departments}" th:text="${depts}"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div th:case="true" class="alert alert-danger" role="alert">
+                    По вашему запросу ничего не найдено!
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="/teacher" class="btn btn-primary" role="button">Назад</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

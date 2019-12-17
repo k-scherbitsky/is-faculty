@@ -4,7 +4,7 @@ import io.isfaculty.model.AddressEntity
 import io.isfaculty.model.ParentsEntity
 
 data class FullTeacher(
-        var studentId: Int? = null,
+        var teacherId: Int? = null,
         var firstName: String? = null,
         var lastName: String? = null,
         var middleName: String? = null,

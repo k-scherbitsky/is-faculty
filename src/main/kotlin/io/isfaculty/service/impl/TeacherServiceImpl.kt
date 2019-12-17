@@ -4,7 +4,9 @@ import io.isfaculty.converter.TeacherConverter
 import io.isfaculty.dao.*
 import io.isfaculty.dto.FullTeacher
 import io.isfaculty.dto.Teacher
+import io.isfaculty.dto.TeacherSearchCriteria
 import io.isfaculty.model.AddressEntity
+import io.isfaculty.model.DepartmentEntity
 import io.isfaculty.model.HumanEntity
 import io.isfaculty.model.TeacherEntity
 import io.isfaculty.service.TeacherService
@@ -13,6 +15,11 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.text.SimpleDateFormat
+import javax.persistence.EntityManager
+import javax.persistence.PersistenceContext
+import javax.persistence.criteria.Expression
+import javax.persistence.criteria.Join
+import javax.persistence.criteria.JoinType
 
 @Service
 @Transactional
@@ -28,6 +35,10 @@ class TeacherServiceImpl  @Autowired constructor(
         private val teacherRepository: TeacherRepository
 
 ) : TeacherService {
+
+
+    @PersistenceContext
+    private lateinit var entityManager: EntityManager
 
     override fun createStudent(teacher: Teacher) {
         val entity = TeacherEntity()
@@ -71,5 +82,33 @@ class TeacherServiceImpl  @Autowired constructor(
         val entity = teacherRepository.findByIdOrNull(id)
 
         return teacherConverter.convertFull(entity)
+    }
+
+    override fun search(searchCriteria: TeacherSearchCriteria): List<FullTeacher?> {
+        val builder = entityManager.criteriaBuilder
+        val criteriaQuery = builder.createQuery(TeacherEntity::class.java)
+        val root = criteriaQuery.from(TeacherEntity::class.java)
+        var predicate = builder.conjunction()
+
+        if (!searchCriteria.teacherTypes.isNullOrEmpty()) {
+            val expression: Expression<String> = root.get<Any>("teacherTypeEntity").get("idTeacherType")
+            val teacherTypes = searchCriteria.teacherTypes!!.replace(" ", "").split(",").map { it.toIntOrNull() }
+            predicate = builder.and(predicate, expression.`in`(teacherTypes))
+        }
+
+        if (!searchCriteria.department.isNullOrEmpty()) {
+            val join: Join<TeacherEntity, DepartmentEntity> = root.join<TeacherEntity, DepartmentEntity>("teachersDepartment", JoinType.INNER)
+            val department = searchCriteria.department!!.replace(" ", "").split(",").map { it.toIntOrNull() }
+            predicate = builder.and(predicate, join.get<String>("idDepartment").`in`(department))
+        }
+
+        criteriaQuery.where(predicate)
+        val items: List<TeacherEntity> = entityManager.createQuery(criteriaQuery).resultList
+
+        return items.map{ teacherConverter.convertFull(it) }
+    }
+
+    private fun getDepartment() {
+
     }
 }
