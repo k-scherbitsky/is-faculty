@@ -1,8 +1,10 @@
 package io.isfaculty.converter
 
+import io.isfaculty.dto.Expelled
 import io.isfaculty.dto.FullStudent
 import io.isfaculty.dto.ScienceConf
 import io.isfaculty.dto.Student
+import io.isfaculty.model.ExpelledEntity
 import io.isfaculty.model.ScienceConfEntity
 import io.isfaculty.model.StudentEntity
 import org.springframework.stereotype.Component
@@ -61,6 +63,18 @@ class StudentConverter {
                 sdf.format(entity.createdDate),
                 entity.place,
                 entity.confName
+        )
+    }
+
+    fun convertExpelled(expelledEntity: ExpelledEntity): Expelled {
+        return Expelled(
+                expelledEntity.studentEntity?.idStudent,
+                expelledEntity.studentEntity?.humanEntity?.firstName,
+                expelledEntity.studentEntity?.humanEntity?.lastName,
+                expelledEntity.studentEntity?.humanEntity?.middleName,
+                expelledEntity.studentEntity?.groupEntity?.name,
+                expelledEntity.byChoice,
+                sdf.format(expelledEntity.dateExpelled)
         )
     }
 

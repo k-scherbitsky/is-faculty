@@ -2,6 +2,7 @@ package io.isfaculty.service.impl
 
 import io.isfaculty.converter.StudentConverter
 import io.isfaculty.dao.*
+import io.isfaculty.dto.Expelled
 import io.isfaculty.dto.FullStudent
 import io.isfaculty.dto.ScienceConf
 import io.isfaculty.dto.Student
@@ -27,7 +28,8 @@ class StudentServiceImpl @Autowired constructor(
         private val studentConverter: StudentConverter,
         private val facultyRepository: FacultyRepository,
         private val studyFormRepository: StudyFormRepository,
-        private val scienceConfRepository: ScienceConfRepository
+        private val scienceConfRepository: ScienceConfRepository,
+        private val expelledRepository: ExpelledRepository
 ) : StudentService {
 
     @PersistenceContext
@@ -135,5 +137,11 @@ class StudentServiceImpl @Autowired constructor(
         val student: StudentEntity? = studentRepository.findByIdOrNull(id)
 
         return studentConverter.convertFull(student)
+    }
+
+    override fun getExpelleds(expelled: Boolean): List<Expelled> {
+        val expelleds = expelledRepository.findByByChoice(expelled)
+
+        return expelleds.map { studentConverter.convertExpelled(it) }
     }
 }

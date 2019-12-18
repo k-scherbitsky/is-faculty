@@ -1,5 +1,6 @@
 package io.isfaculty.service
 
+import io.isfaculty.dto.Expelled
 import io.isfaculty.dto.FullStudent
 import io.isfaculty.dto.ScienceConf
 import io.isfaculty.dto.Student
@@ -13,4 +14,5 @@ interface StudentService {
     fun getFullStudent(id: Int): FullStudent?
     fun getConf(prize: Boolean): List<ScienceConf>
     fun getHeadmans(group: String): List<Student>
+    fun getExpelleds(expelled: Boolean): List<Expelled>
 }

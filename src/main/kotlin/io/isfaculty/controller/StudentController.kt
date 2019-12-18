@@ -1,6 +1,7 @@
 package io.isfaculty.controller
 
 import io.isfaculty.dao.GroupRepository
+import io.isfaculty.dto.Expelled
 import io.isfaculty.dto.FullStudent
 import io.isfaculty.dto.ScienceConf
 import io.isfaculty.dto.Student
@@ -100,6 +101,25 @@ class StudentController @Autowired constructor(
         }
 
         return "student/result"
+    }
+
+    @RequestMapping("/expelled")
+    fun expelledPage(model: Model): String {
+        return "student/expelled"
+    }
+
+    @GetMapping("/expelled/result")
+    fun expelledResultPage(@RequestParam(defaultValue = "false") expelled: Boolean, model: Model): String {
+        val studentList: List<Expelled> = studentService.getExpelleds(expelled)
+
+        if (studentList.isEmpty()) {
+            model.addAttribute("isEmpty", true)
+        } else {
+            model.addAttribute("isEmpty", false)
+            model.addAttribute("studentList", studentList)
+        }
+
+        return "student/resultExpelled"
     }
 
 }
