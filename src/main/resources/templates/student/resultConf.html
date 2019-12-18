@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div>
+    <div class="row justify-content-center">
+        <div class="card border-primary table-card">
+            <div class="card-header">Результат</div>
+            <div class="card-body" th:switch="${isEmpty}">
+                <table th:case="false" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Конференция</th>
+                        <th scope="col">Фамилия</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Отчество</th>
+                        <th scope="col">Группа</th>
+                        <th scope="col">Место</th>
+                        <th scope="col">Дата проведения</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="conf : ${confs}">
+                        <th scope="row">
+                            <a th:href="'/student/' + ${conf.studentId}" th:text="${conf.studentId}"/>
+                        </th>
+                        <td th:text="${conf.confName}"/>
+                        <td th:text="${conf.lastName}"/>
+                        <td th:text="${conf.firstName}"/>
+                        <td th:text="${conf.middleName}"/>
+                        <td th:text="${conf.group}"/>
+                        <td th:text="${conf.place}"/>
+                        <td th:text="${conf.createdDate}"/>
+                    </tr>
+                    </tbody>
+                </table>
+                <div th:case="true" class="alert alert-danger" role="alert">
+                    По вашему запросу ничего не найдено!
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="/student" class="btn btn-primary" role="button">Назад</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

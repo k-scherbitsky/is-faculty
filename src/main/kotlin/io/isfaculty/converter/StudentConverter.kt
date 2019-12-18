@@ -1,7 +1,9 @@
 package io.isfaculty.converter
 
 import io.isfaculty.dto.FullStudent
+import io.isfaculty.dto.ScienceConf
 import io.isfaculty.dto.Student
+import io.isfaculty.model.ScienceConfEntity
 import io.isfaculty.model.StudentEntity
 import org.springframework.stereotype.Component
 import java.text.SimpleDateFormat
@@ -46,6 +48,19 @@ class StudentConverter {
                 sdf.format(student?.admissionDate),
                 student?.humanEntity?.addressList,
                 student?.parents
+        )
+    }
+
+    fun convertConf(entity: ScienceConfEntity): ScienceConf {
+        return ScienceConf(
+                entity.studentEntity?.idStudent,
+                entity.studentEntity?.humanEntity?.firstName,
+                entity.studentEntity?.humanEntity?.lastName,
+                entity.studentEntity?.humanEntity?.middleName,
+                entity.studentEntity?.groupEntity?.name,
+                sdf.format(entity.createdDate),
+                entity.place,
+                entity.confName
         )
     }
 

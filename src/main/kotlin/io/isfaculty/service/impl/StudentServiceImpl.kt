@@ -3,6 +3,7 @@ package io.isfaculty.service.impl
 import io.isfaculty.converter.StudentConverter
 import io.isfaculty.dao.*
 import io.isfaculty.dto.FullStudent
+import io.isfaculty.dto.ScienceConf
 import io.isfaculty.dto.Student
 import io.isfaculty.dto.StudentSearchCriteria
 import io.isfaculty.model.*
@@ -25,7 +26,8 @@ class StudentServiceImpl @Autowired constructor(
         private val groupRepository: GroupRepository,
         private val studentConverter: StudentConverter,
         private val facultyRepository: FacultyRepository,
-        private val studyFormRepository: StudyFormRepository
+        private val studyFormRepository: StudyFormRepository,
+        private val scienceConfRepository: ScienceConfRepository
 ) : StudentService {
 
     @PersistenceContext
@@ -98,6 +100,15 @@ class StudentServiceImpl @Autowired constructor(
         val items: List<StudentEntity> = entityManager.createQuery(criteriaQuery).resultList
 
         return items.map { studentConverter.convert(it) }
+    }
+
+    override fun getConf(prize: Boolean): List<ScienceConf> {
+
+        return if (!prize) {
+            scienceConfRepository.findAll().map { studentConverter.convertConf(it) }
+        } else {
+            scienceConfRepository.findByPrize().map { studentConverter.convertConf(it) }
+        }
     }
 
     override fun setSearchCriteria(): StudentSearchCriteria {

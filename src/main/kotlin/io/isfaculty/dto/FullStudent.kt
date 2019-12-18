@@ -2,6 +2,7 @@ package io.isfaculty.dto
 
 import io.isfaculty.model.AddressEntity
 import io.isfaculty.model.ParentsEntity
+import io.isfaculty.model.ScienceConfEntity
 
 data class FullStudent(
         var studentId: Int? = null,
@@ -18,8 +19,8 @@ data class FullStudent(
         var faculty: String? = null,
         var admissionDate: String? = null,
         var addresses: List<AddressEntity>? = mutableListOf(),
-        var parents: List<ParentsEntity>? = mutableListOf()/*,
+        var parents: List<ParentsEntity>? = mutableListOf(),
+        var confs: List<ScienceConfEntity> = mutableListOf() /*,
         var stipend: Double? = null,
-        var confs: List<ScienceConf> = mutableListOf(),
         */
 )

@@ -1,6 +1,7 @@
 package io.isfaculty.controller
 
 import io.isfaculty.dto.FullStudent
+import io.isfaculty.dto.ScienceConf
 import io.isfaculty.dto.Student
 import io.isfaculty.dto.StudentSearchCriteria
 import io.isfaculty.service.StudentService
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.*
 
 @Controller
 @RequestMapping("/student")
-class StudentController @Autowired constructor(private val studentService: StudentService) {
+class StudentController @Autowired constructor(
+        private val studentService: StudentService
+) {
 
     @RequestMapping("")
     fun index(model: Model): String {
@@ -42,7 +45,7 @@ class StudentController @Autowired constructor(private val studentService: Stude
     fun search(@ModelAttribute searchCriteria: StudentSearchCriteria, model: Model): String {
         val studentList: List<Student> = studentService.search(searchCriteria)
 
-        if(studentList.isEmpty()) {
+        if (studentList.isEmpty()) {
             model.addAttribute("isEmpty", true)
         } else {
             model.addAttribute("isEmpty", false)
@@ -57,5 +60,25 @@ class StudentController @Autowired constructor(private val studentService: Stude
         model.addAttribute("searchCriteria", studentService.setSearchCriteria())
         return "student/search"
     }
+
+    @RequestMapping("/conf")
+    fun confPage(model: Model): String {
+        return "student/conf"
+    }
+
+    @GetMapping("/confResult")
+    fun confResultPage(@RequestParam(defaultValue = "false") prize: Boolean, model: Model): String {
+        val confs: List<ScienceConf> = studentService.getConf(prize)
+
+        if (confs.isEmpty()) {
+            model.addAttribute("isEmpty", true)
+        } else {
+            model.addAttribute("isEmpty", false)
+            model.addAttribute("confs", confs)
+        }
+
+        return "student/resultConf"
+    }
+
 
 }
