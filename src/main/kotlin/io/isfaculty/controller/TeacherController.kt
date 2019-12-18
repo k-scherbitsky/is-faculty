@@ -4,7 +4,7 @@ import io.isfaculty.dao.DepartmentRepository
 import io.isfaculty.dao.FacultyRepository
 import io.isfaculty.dao.TeacherTypeRepository
 import io.isfaculty.dto.*
-import io.isfaculty.model.TeacherTypeEntity
+import io.isfaculty.dto.searchCriteria.TeacherSearchCriteria
 import io.isfaculty.service.TeacherService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller

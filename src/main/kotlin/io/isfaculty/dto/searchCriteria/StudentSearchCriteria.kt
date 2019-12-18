@@ -1,4 +1,4 @@
-package io.isfaculty.dto
+package io.isfaculty.dto.searchCriteria
 
 data class StudentSearchCriteria (
         var course: String? = null,

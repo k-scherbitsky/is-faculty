@@ -4,7 +4,7 @@ import io.isfaculty.converter.TeacherConverter
 import io.isfaculty.dao.*
 import io.isfaculty.dto.FullTeacher
 import io.isfaculty.dto.Teacher
-import io.isfaculty.dto.TeacherSearchCriteria
+import io.isfaculty.dto.searchCriteria.TeacherSearchCriteria
 import io.isfaculty.model.AddressEntity
 import io.isfaculty.model.DepartmentEntity
 import io.isfaculty.model.HumanEntity

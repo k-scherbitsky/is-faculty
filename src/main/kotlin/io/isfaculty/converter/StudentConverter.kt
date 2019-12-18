@@ -13,21 +13,21 @@ class StudentConverter {
 
     private val sdf = SimpleDateFormat("dd-MM-yyyy")
 
-    fun convert(entity: StudentEntity): Student {
+    fun convert(entity: StudentEntity?): Student {
         return Student(
-                entity.idStudent,
-                entity.humanEntity?.firstName,
-                entity.humanEntity?.lastName,
-                entity.humanEntity?.middleName,
-                sdf.format(entity.humanEntity?.birthDate),
-                entity.humanEntity?.phoneNumber,
-                entity.humanEntity?.email,
-                entity.recordBook,
-                entity.studyFormEntity?.name,
-                sdf.format(entity.admissionDate),
-                entity.groupEntity?.name,
-                entity.hasChildren,
-                entity.humanEntity?.sex
+                entity?.idStudent,
+                entity?.humanEntity?.firstName,
+                entity?.humanEntity?.lastName,
+                entity?.humanEntity?.middleName,
+                sdf.format(entity?.humanEntity?.birthDate),
+                entity?.humanEntity?.phoneNumber,
+                entity?.humanEntity?.email,
+                entity?.recordBook,
+                entity?.studyFormEntity?.name,
+                sdf.format(entity?.admissionDate),
+                entity?.groupEntity?.name,
+                entity?.hasChildren,
+                entity?.humanEntity?.sex
         )
     }
 

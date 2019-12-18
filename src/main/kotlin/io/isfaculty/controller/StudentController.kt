@@ -1,9 +1,10 @@
 package io.isfaculty.controller
 
+import io.isfaculty.dao.GroupRepository
 import io.isfaculty.dto.FullStudent
 import io.isfaculty.dto.ScienceConf
 import io.isfaculty.dto.Student
-import io.isfaculty.dto.StudentSearchCriteria
+import io.isfaculty.dto.searchCriteria.StudentSearchCriteria
 import io.isfaculty.service.StudentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.*
 @Controller
 @RequestMapping("/student")
 class StudentController @Autowired constructor(
-        private val studentService: StudentService
+        private val studentService: StudentService,
+        private val groupRepository: GroupRepository
 ) {
 
     @RequestMapping("")
@@ -66,7 +68,7 @@ class StudentController @Autowired constructor(
         return "student/conf"
     }
 
-    @GetMapping("/confResult")
+    @GetMapping("/conf/result")
     fun confResultPage(@RequestParam(defaultValue = "false") prize: Boolean, model: Model): String {
         val confs: List<ScienceConf> = studentService.getConf(prize)
 
@@ -80,5 +82,24 @@ class StudentController @Autowired constructor(
         return "student/resultConf"
     }
 
+    @RequestMapping("/headman")
+    fun headmanPage(model: Model): String {
+        model.addAttribute("groups", groupRepository.findAll())
+        return "student/headman"
+    }
+
+    @GetMapping("/headman/result")
+    fun headmanResultPage(@RequestParam group: String, model: Model): String {
+        val studentList: List<Student> = studentService.getHeadmans(group)
+
+        if (studentList.isEmpty()) {
+            model.addAttribute("isEmpty", true)
+        } else {
+            model.addAttribute("isEmpty", false)
+            model.addAttribute("studentList", studentList)
+        }
+
+        return "student/result"
+    }
 
 }

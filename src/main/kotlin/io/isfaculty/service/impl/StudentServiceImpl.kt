@@ -5,7 +5,7 @@ import io.isfaculty.dao.*
 import io.isfaculty.dto.FullStudent
 import io.isfaculty.dto.ScienceConf
 import io.isfaculty.dto.Student
-import io.isfaculty.dto.StudentSearchCriteria
+import io.isfaculty.dto.searchCriteria.StudentSearchCriteria
 import io.isfaculty.model.*
 import io.isfaculty.service.StudentService
 import org.springframework.beans.factory.annotation.Autowired
@@ -109,6 +109,14 @@ class StudentServiceImpl @Autowired constructor(
         } else {
             scienceConfRepository.findByPrize().map { studentConverter.convertConf(it) }
         }
+    }
+
+    override fun getHeadmans(group: String): List<Student> {
+
+        val groups = group.replace(" ", "").split(",").map { it.toIntOrNull() }
+        val groupEntities: List<GroupEntity> = groupRepository.findByIdGroupIn(groups)
+
+        return groupEntities.map { it.headmanEntity }.map { studentConverter.convert(it) }
     }
 
     override fun setSearchCriteria(): StudentSearchCriteria {

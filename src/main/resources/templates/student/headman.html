@@ -17,12 +17,15 @@
     <div class="row justify-content-center">
         <div class="card border-primary home-card">
             <div class="card-header">Поиск</div>
-            <form th:action="@{/student/conf/result}" method="get">
+            <form th:action="@{/student/headman/result}" method="get">
                 <div class="card-body">
                     <div class="row my-3">
                         <div class="col-12">
-                            <label>Показфывать только призовые места</label>
-                            <input name="prize" type="checkbox" class="form-check-input">
+                            <label>Группа</label>
+                            <select multiple class="form-control" name="group">
+                                <option th:value="null">Не важно</option>
+                                <option th:each="gr : ${groups}" th:value="${gr.idGroup}" th:text="${gr.name}"/>
+                            </select>
                         </div>
                     </div>
                 </div>
