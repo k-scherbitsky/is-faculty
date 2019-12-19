@@ -1,12 +1,7 @@
 package io.isfaculty.converter
 
-import io.isfaculty.dto.Expelled
-import io.isfaculty.dto.FullStudent
-import io.isfaculty.dto.ScienceConf
-import io.isfaculty.dto.Student
-import io.isfaculty.model.ExpelledEntity
-import io.isfaculty.model.ScienceConfEntity
-import io.isfaculty.model.StudentEntity
+import io.isfaculty.dto.*
+import io.isfaculty.model.*
 import org.springframework.stereotype.Component
 import java.text.SimpleDateFormat
 
@@ -76,6 +71,26 @@ class StudentConverter {
                 expelledEntity.byChoice,
                 sdf.format(expelledEntity.dateExpelled)
         )
+    }
+
+    fun convertCurator(entity: CuratorEntity, studentEntity: StudentEntity? = null, teacherEntity: TeacherEntity? = null): Curator {
+        val curator = Curator(
+                null,
+                entity.humanEntity?.firstName,
+                entity.humanEntity?.lastName,
+                entity.humanEntity?.middleName,
+                entity.groupEntity?.name
+        )
+
+        if(teacherEntity != null) {
+            curator.id = teacherEntity.idTeacher
+            curator.teacher = true
+        } else {
+            curator.id = studentEntity?.idStudent
+            curator.teacher = false
+        }
+
+        return curator
     }
 
 }

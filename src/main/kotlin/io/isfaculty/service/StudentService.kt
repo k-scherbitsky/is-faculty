@@ -1,9 +1,6 @@
 package io.isfaculty.service
 
-import io.isfaculty.dto.Expelled
-import io.isfaculty.dto.FullStudent
-import io.isfaculty.dto.ScienceConf
-import io.isfaculty.dto.Student
+import io.isfaculty.dto.*
 import io.isfaculty.dto.searchCriteria.StudentSearchCriteria
 
 interface StudentService {
@@ -15,4 +12,5 @@ interface StudentService {
     fun getConf(prize: Boolean): List<ScienceConf>
     fun getHeadmans(group: String): List<Student>
     fun getExpelleds(expelled: Boolean): List<Expelled>
+    fun getCurators(group: String): List<Curator>
 }

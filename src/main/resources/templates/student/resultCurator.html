@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div>
+    <div class="row justify-content-center">
+        <div class="card border-primary table-card">
+            <div class="card-header">Результат</div>
+            <div class="card-body" th:switch="${isEmpty}">
+                <table th:case="false" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Фамилия</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Отчество</th>
+                        <th scope="col">Группа</th>
+                        <th scope="col">Преподаватель</th>
+                        <th scope="col">Студент</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="curator : ${curatorList}">
+                        <th scope="row" th:switch="${curator.teacher}">
+                            <a th:case="false" th:href="'/student/' + ${curator.id}" th:text="${curator.id}"/>
+                            <a th:case="true" th:href="'/teacher/' + ${curator.id}" th:text="${curator.id}"/>
+                        </th>
+
+                        <td th:text="${curator.lastName}"/>
+                        <td th:text="${curator.firstName}"/>
+                        <td th:text="${curator.middleName}"/>
+                        <td th:text="${curator.group}"/>
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" th:checked="${curator.teacher}" disabled>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" th:checked="${!curator.teacher}" disabled>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div th:case="true" class="alert alert-danger" role="alert">
+                    По вашему запросу ничего не найдено!
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="/student" class="btn btn-primary" role="button">Назад</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

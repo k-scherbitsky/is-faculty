@@ -2,10 +2,7 @@ package io.isfaculty.service.impl
 
 import io.isfaculty.converter.StudentConverter
 import io.isfaculty.dao.*
-import io.isfaculty.dto.Expelled
-import io.isfaculty.dto.FullStudent
-import io.isfaculty.dto.ScienceConf
-import io.isfaculty.dto.Student
+import io.isfaculty.dto.*
 import io.isfaculty.dto.searchCriteria.StudentSearchCriteria
 import io.isfaculty.model.*
 import io.isfaculty.service.StudentService
@@ -24,12 +21,14 @@ import javax.persistence.criteria.Expression
 class StudentServiceImpl @Autowired constructor(
         private val humanRepository: HumanRepository,
         private val studentRepository: StudentRepository,
+        private val teacherRepository: TeacherRepository,
         private val groupRepository: GroupRepository,
         private val studentConverter: StudentConverter,
         private val facultyRepository: FacultyRepository,
         private val studyFormRepository: StudyFormRepository,
         private val scienceConfRepository: ScienceConfRepository,
-        private val expelledRepository: ExpelledRepository
+        private val expelledRepository: ExpelledRepository,
+        private val curatorRepository: CuratorRepository
 ) : StudentService {
 
     @PersistenceContext
@@ -143,5 +142,23 @@ class StudentServiceImpl @Autowired constructor(
         val expelleds = expelledRepository.findByByChoice(expelled)
 
         return expelleds.map { studentConverter.convertExpelled(it) }
+    }
+
+    override fun getCurators(group: String): List<Curator> {
+        val groups = group.replace(" ", "").split(",").map { it.toIntOrNull() }
+        val curatorsEntity: List<CuratorEntity> = curatorRepository.findAllByGroupEntity_IdGroupIn(groups)
+
+        val curators: ArrayList<Curator> = ArrayList()
+        for (curator in curatorsEntity) {
+            val student = studentRepository.findByHumanEntity(curator.humanEntity)
+            if(student != null) {
+                curators.add(studentConverter.convertCurator(curator, student))
+            } else {
+                val teacher = teacherRepository.findByHumanEntity(curator.humanEntity)
+                curators.add(studentConverter.convertCurator(curator, teacherEntity = teacher))
+            }
+        }
+
+        return curators
     }
 }

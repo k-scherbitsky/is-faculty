@@ -1,10 +1,7 @@
 package io.isfaculty.controller
 
 import io.isfaculty.dao.GroupRepository
-import io.isfaculty.dto.Expelled
-import io.isfaculty.dto.FullStudent
-import io.isfaculty.dto.ScienceConf
-import io.isfaculty.dto.Student
+import io.isfaculty.dto.*
 import io.isfaculty.dto.searchCriteria.StudentSearchCriteria
 import io.isfaculty.service.StudentService
 import org.springframework.beans.factory.annotation.Autowired
@@ -120,6 +117,26 @@ class StudentController @Autowired constructor(
         }
 
         return "student/resultExpelled"
+    }
+
+    @RequestMapping("/curator")
+    fun curatorPage(model: Model): String {
+        model.addAttribute("groups", groupRepository.findAll())
+        return "student/curator"
+    }
+
+    @GetMapping("/curator/result")
+    fun curatorResultPage(@RequestParam group: String, model: Model): String {
+        val curatorList: List<Curator> = studentService.getCurators(group)
+
+        if (curatorList.isEmpty()) {
+            model.addAttribute("isEmpty", true)
+        } else {
+            model.addAttribute("isEmpty", false)
+            model.addAttribute("curatorList", curatorList)
+        }
+
+        return "student/resultCurator"
     }
 
 }
