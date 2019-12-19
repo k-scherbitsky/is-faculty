@@ -3,9 +3,14 @@ package io.isfaculty.model
 import java.util.*
 import javax.persistence.*
 
-@Embeddable
+@Entity
 @Table(name = "grade", schema = "public")
 class GradeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "grade_id", unique = true, nullable = false)
+    var gradeId: Long? = null
 
     @ManyToOne(targetEntity = StudentEntity::class)
     @JoinColumn(name = "id_student", nullable = false)
