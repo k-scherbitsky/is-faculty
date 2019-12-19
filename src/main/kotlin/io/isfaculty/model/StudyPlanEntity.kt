@@ -13,7 +13,7 @@ class StudyPlanEntity {
     var idStudyPlan: Int? = null
 
     @ManyToOne(targetEntity = DisciplineEntity::class)
-    @JoinColumn(name = "id_discipline", nullable = false)
+    @JoinColumn(name = "id_discpline", nullable = false)
     var disciplineEntity: DisciplineEntity? = null
 
     @ManyToOne(targetEntity = OccupationTypeEntity::class)
