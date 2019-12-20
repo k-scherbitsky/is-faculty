@@ -1,4 +1,4 @@
-package io.isfaculty.dto
+package io.isfaculty.dto.searchCriteria
 
 data class ExamTestSerach (
         var groupIds: String? = null,

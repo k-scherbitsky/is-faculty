@@ -1,7 +1,7 @@
 package io.isfaculty.controller
 
 import io.isfaculty.dao.*
-import io.isfaculty.dto.ExamTestSerach
+import io.isfaculty.dto.searchCriteria.ExamTestSerach
 import io.isfaculty.dto.ExamTestSerachResponse
 import io.isfaculty.dto.GradeRequest
 import io.isfaculty.model.GroupEntity
@@ -9,7 +9,6 @@ import io.isfaculty.model.StudentEntity
 import io.isfaculty.model.StudyPlanEntity
 import io.isfaculty.model.TeacherEntity
 import io.isfaculty.service.GradeService
-import io.isfaculty.service.StudyPlanService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model

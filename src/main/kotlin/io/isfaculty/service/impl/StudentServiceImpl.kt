@@ -3,6 +3,7 @@ package io.isfaculty.service.impl
 import io.isfaculty.converter.StudentConverter
 import io.isfaculty.dao.*
 import io.isfaculty.dto.*
+import io.isfaculty.dto.searchCriteria.FullNameSearch
 import io.isfaculty.dto.searchCriteria.StudentSearchCriteria
 import io.isfaculty.model.*
 import io.isfaculty.service.StudentService
@@ -151,7 +152,7 @@ class StudentServiceImpl @Autowired constructor(
         val curators: ArrayList<Curator> = ArrayList()
         for (curator in curatorsEntity) {
             val student = studentRepository.findByHumanEntity(curator.humanEntity)
-            if(student != null) {
+            if (student != null) {
                 curators.add(studentConverter.convertCurator(curator, student))
             } else {
                 val teacher = teacherRepository.findByHumanEntity(curator.humanEntity)
@@ -160,5 +161,10 @@ class StudentServiceImpl @Autowired constructor(
         }
 
         return curators
+    }
+
+    override fun searchByFullName(fullNameSearch: FullNameSearch): List<Student> {
+        val students: List<StudentEntity> = studentRepository.findByFullName(fullNameSearch.firstName, fullNameSearch.lastName, fullNameSearch.middleName)
+        return students.map { studentConverter.convert(it) }
     }
 }

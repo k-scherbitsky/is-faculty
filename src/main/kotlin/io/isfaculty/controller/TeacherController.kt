@@ -4,6 +4,7 @@ import io.isfaculty.dao.DepartmentRepository
 import io.isfaculty.dao.FacultyRepository
 import io.isfaculty.dao.TeacherTypeRepository
 import io.isfaculty.dto.*
+import io.isfaculty.dto.searchCriteria.FullNameSearch
 import io.isfaculty.dto.searchCriteria.TeacherSearchCriteria
 import io.isfaculty.service.TeacherService
 import org.springframework.beans.factory.annotation.Autowired
@@ -62,6 +63,28 @@ class TeacherController @Autowired constructor(
     @GetMapping("/result")
     fun search(@ModelAttribute searchCriteria: TeacherSearchCriteria, model: Model): String {
         val teacherList: List<FullTeacher?> = teacherService.search(searchCriteria)
+
+        if(teacherList.isEmpty()) {
+            model.addAttribute("isEmpty", true)
+        } else {
+            model.addAttribute("isEmpty", false)
+            model.addAttribute("teacherList", teacherList)
+        }
+
+        return "teacher/result"
+    }
+
+    @RequestMapping("/search/by-name")
+    fun searchByName(model: Model): String {
+
+        model.addAttribute("fullName", FullNameSearch())
+        return "teacher/searchByName"
+    }
+
+    @GetMapping("/search/by-name/result")
+    fun searchByName(@ModelAttribute fullNameSearch: FullNameSearch, model: Model): String {
+
+        val teacherList: List<FullTeacher?> = teacherService.searchByFullName(fullNameSearch)
 
         if(teacherList.isEmpty()) {
             model.addAttribute("isEmpty", true)

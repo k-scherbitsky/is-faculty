@@ -4,6 +4,7 @@ import io.isfaculty.converter.TeacherConverter
 import io.isfaculty.dao.*
 import io.isfaculty.dto.FullTeacher
 import io.isfaculty.dto.Teacher
+import io.isfaculty.dto.searchCriteria.FullNameSearch
 import io.isfaculty.dto.searchCriteria.TeacherSearchCriteria
 import io.isfaculty.model.AddressEntity
 import io.isfaculty.model.DepartmentEntity
@@ -108,7 +109,9 @@ class TeacherServiceImpl  @Autowired constructor(
         return items.map{ teacherConverter.convertFull(it) }
     }
 
-    private fun getDepartment() {
+    override fun searchByFullName(fullNameSearch: FullNameSearch): List<FullTeacher?> {
+        val teachers = teacherRepository.findByFullName(fullNameSearch.firstName, fullNameSearch.lastName, fullNameSearch.middleName)
 
+        return teachers.map { teacherConverter.convertFull(it) }
     }
 }

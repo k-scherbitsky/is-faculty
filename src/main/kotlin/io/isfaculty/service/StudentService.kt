@@ -1,6 +1,7 @@
 package io.isfaculty.service
 
 import io.isfaculty.dto.*
+import io.isfaculty.dto.searchCriteria.FullNameSearch
 import io.isfaculty.dto.searchCriteria.StudentSearchCriteria
 
 interface StudentService {
@@ -13,4 +14,5 @@ interface StudentService {
     fun getHeadmans(group: String): List<Student>
     fun getExpelleds(expelled: Boolean): List<Expelled>
     fun getCurators(group: String): List<Curator>
+    fun searchByFullName(fullNameSearch: FullNameSearch): List<Student>
 }

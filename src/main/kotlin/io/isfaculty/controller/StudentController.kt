@@ -2,6 +2,7 @@ package io.isfaculty.controller
 
 import io.isfaculty.dao.GroupRepository
 import io.isfaculty.dto.*
+import io.isfaculty.dto.searchCriteria.FullNameSearch
 import io.isfaculty.dto.searchCriteria.StudentSearchCriteria
 import io.isfaculty.service.StudentService
 import org.springframework.beans.factory.annotation.Autowired
@@ -138,5 +139,28 @@ class StudentController @Autowired constructor(
 
         return "student/resultCurator"
     }
+
+    @RequestMapping("/search/by-name")
+    fun searchByName(model: Model): String {
+
+        model.addAttribute("fullName", FullNameSearch())
+        return "student/searchByName"
+    }
+
+    @GetMapping("/search/by-name/result")
+    fun searchByName(@ModelAttribute fullNameSearch: FullNameSearch, model: Model): String {
+
+        val studentList: List<Student> = studentService.searchByFullName(fullNameSearch)
+
+        if (studentList.isEmpty()) {
+            model.addAttribute("isEmpty", true)
+        } else {
+            model.addAttribute("isEmpty", false)
+            model.addAttribute("studentList", studentList)
+        }
+
+        return "student/result"
+    }
+
 
 }

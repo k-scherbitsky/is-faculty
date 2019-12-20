@@ -2,7 +2,7 @@ package io.isfaculty.service.impl
 
 import io.isfaculty.converter.GradeConverter
 import io.isfaculty.dao.*
-import io.isfaculty.dto.ExamTestSerach
+import io.isfaculty.dto.searchCriteria.ExamTestSerach
 import io.isfaculty.dto.ExamTestSerachResponse
 import io.isfaculty.dto.GradeRequest
 import io.isfaculty.model.GradeEntity
