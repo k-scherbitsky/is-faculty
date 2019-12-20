@@ -1,9 +1,9 @@
 package io.isfaculty.service.impl
 
-import io.isfaculty.dao.GradeRepository
-import io.isfaculty.dao.StudentRepository
-import io.isfaculty.dao.StudyPlanRepository
-import io.isfaculty.dao.TeacherRepository
+import io.isfaculty.converter.GradeConverter
+import io.isfaculty.dao.*
+import io.isfaculty.dto.ExamTestSerach
+import io.isfaculty.dto.ExamTestSerachResponse
 import io.isfaculty.dto.GradeRequest
 import io.isfaculty.model.GradeEntity
 import io.isfaculty.service.GradeService
@@ -18,7 +18,9 @@ class GradeServiceImpl  @Autowired constructor(
         private val studyPlanRepository: StudyPlanRepository,
         private val studentRepository: StudentRepository,
         private val teacherRepository: TeacherRepository,
-        private val gradeRepository: GradeRepository
+        private val groupRepository: GroupRepository,
+        private val gradeRepository: GradeRepository,
+        private val gradeConverter: GradeConverter
 ) : GradeService {
 
     override fun addMark(gradeRequest: GradeRequest) {
@@ -31,5 +33,22 @@ class GradeServiceImpl  @Autowired constructor(
         entity.createdDate = Date()
 
         gradeRepository.save(entity)
+    }
+
+    override fun examOrTest(examTestSerach: ExamTestSerach): List<ExamTestSerachResponse?> {
+        val groupsIds: List<Int?>? = examTestSerach.groupIds?.replace(" ", "")?.split(",")?.map { it.toIntOrNull() }
+        val groupsEntities = groupRepository.findByIdGroupIn(groupsIds)
+
+        val grades = gradeRepository.findAllByStudyPlanEntity_IdStudyPlanAndGrade(examTestSerach.studyPlanId!!, examTestSerach.mark!!)
+
+        val gradesResult = ArrayList<GradeEntity>()
+
+        for(grade in grades) {
+            if(groupsEntities.contains(grade.studentEntity?.groupEntity)) {
+                gradesResult.add(grade)
+            }
+        }
+
+        return gradesResult.map { gradeConverter.convert(it) }
     }
 }

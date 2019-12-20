@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Student</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card border-primary home-card">
+            <div class="card-header">Сдавшие зачет либо экзамен по указанной дисциплине с указанной оценкой</div>
+            <form th:action="@{/grade/exam-or-test/result}" th:object="${examTestSerach}" method="get">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Группа*</label>
+                                <select multiple class="form-control" th:field="*{groupIds}">
+                                    <option th:each="gr : ${groups}" th:value="${gr.idGroup}" th:text="${gr.name}"/>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Учебный план*</label>
+                                <select class="form-control" th:field="*{studyPlanId}">
+                                    <option th:each="sp : ${studyPlans}" th:value="${sp.getKey()}" th:text="${sp.getValue()}"/>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label>Оценка*</label>
+                                <input th:field="*{mark}" required min="1" max="10" type="number" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary dept-input">
+                        Сохранить
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

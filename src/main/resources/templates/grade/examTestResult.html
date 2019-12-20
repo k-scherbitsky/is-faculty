@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div>
+    <div class="row justify-content-center">
+        <div class="card border-primary table-card">
+            <div class="card-header">Результат</div>
+            <div class="card-body" th:switch="${isEmpty}">
+                <table th:case="false" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Фамилия</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Группа</th>
+                        <th scope="col">Предмет</th>
+                        <th scope="col">Тип</th>
+                        <th scope="col">Оценка</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="resp : ${response}">
+                        <th scope="row">
+                            <a th:href="'/student/' + ${resp.studentId}" th:text="${resp.studentId}"/>
+                        </th>
+                        <td th:text="${resp.lastName}"/>
+                        <td th:text="${resp.firstName}"/>
+                        <td th:text="${resp.group}"/>
+                        <td th:text="${resp.discipline}"/>
+                        <td th:text="${resp.occupationType}"/>
+                        <td th:text="${resp.mark}"/>
+                    </tr>
+                    </tbody>
+                </table>
+                <div th:case="true" class="alert alert-danger" role="alert">
+                    По вашему запросу ничего не найдено!
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="/grade" class="btn btn-primary" role="button">Назад</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
